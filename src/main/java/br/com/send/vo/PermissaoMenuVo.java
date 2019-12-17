@@ -10,6 +10,9 @@ public class PermissaoMenuVo {
 	public PermissaoMenuVo(PermissaoMenuModel permissaoMenuModel) {
 		if( permissaoMenuModel != null ){
 			BeanUtils.copyProperties(permissaoMenuModel,this);
+			if(permissaoMenuModel.getBlank() != null) {
+				this.setBlank(permissaoMenuModel.getBlank().booleanValue());
+			}
 		}
 	}
 	
@@ -23,7 +26,7 @@ public class PermissaoMenuVo {
 	
 	private Integer ordem;
 	
-	private Boolean blank ;
+	private boolean blank ;
 
 	private Integer idPerfil;
 	
@@ -78,11 +81,11 @@ public class PermissaoMenuVo {
 		this.ordem = ordem;
 	}
 
-	public Boolean getBlank() {
+	public boolean getBlank() {
 		return blank;
 	}
 
-	public void setBlank(Boolean blank) {
+	public void setBlank(boolean blank) {
 		this.blank = blank;
 	}
 	

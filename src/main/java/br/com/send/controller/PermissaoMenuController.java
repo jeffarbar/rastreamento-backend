@@ -18,7 +18,7 @@ import br.com.send.vo.PermissaoMenuVo;
 import br.com.send.vo.ResponseVo;
 
 @RestController
-@RequestMapping(path = "/permissaoMenux")
+@RequestMapping(path = "/permissaoMenu")
 public class PermissaoMenuController extends Controller{
 
 	@Autowired

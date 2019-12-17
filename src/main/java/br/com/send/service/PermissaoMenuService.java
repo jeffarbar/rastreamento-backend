@@ -1,10 +1,7 @@
 package br.com.send.service;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -15,7 +12,6 @@ import br.com.send.model.PerfilModel;
 import br.com.send.model.PermissaoMenuModel;
 import br.com.send.repository.PerfilRepository;
 import br.com.send.repository.PermissaoMenuRepository;
-import br.com.send.vo.PerfilVo;
 import br.com.send.vo.PermissaoMenuVo;
 import br.com.send.vo.ResponseVo;
 import javassist.NotFoundException;
@@ -38,16 +34,19 @@ public class PermissaoMenuService {
 			PermissaoMenuModel permissaoMenuMapa = getPermissaoMenu( "Mapa", "/maps", "location_on", 0 ,false);
 			permissaoMenuMapa.setPerfil(perfilModel);
 			permissaoMenuRepository.saveAndFlush(permissaoMenuMapa);
-			PermissaoMenuModel permissaoMenuPontoMonitorado = getPermissaoMenu( "Ponto Monitorado", "/pontomonitorado", "directions_car", 1,false);
+			PermissaoMenuModel permissaoMenuTrajeto = getPermissaoMenu( "Trajeto", "/trajeto", "navigation", 1 ,false);
+			permissaoMenuTrajeto.setPerfil(perfilModel);
+			permissaoMenuRepository.saveAndFlush(permissaoMenuTrajeto);
+			PermissaoMenuModel permissaoMenuPontoMonitorado = getPermissaoMenu( "Ponto Monitorado", "/pontomonitorado", "directions_car", 2,false);
 			permissaoMenuPontoMonitorado.setPerfil(perfilModel);
 			permissaoMenuRepository.saveAndFlush(permissaoMenuPontoMonitorado);
-			PermissaoMenuModel permissaoMenuDispositivo = getPermissaoMenu( "Dispositivo", "/dispositivo", "phonelink_ring", 2, false);
+			PermissaoMenuModel permissaoMenuDispositivo = getPermissaoMenu( "Dispositivo", "/dispositivo", "phonelink_ring", 3, false);
 			permissaoMenuDispositivo.setPerfil(perfilModel);
 			permissaoMenuRepository.saveAndFlush(permissaoMenuDispositivo);
-			PermissaoMenuModel permissaoMenuUsuario = getPermissaoMenu( "Usuário", "/user", "person", 3, false);
+			PermissaoMenuModel permissaoMenuUsuario = getPermissaoMenu( "Usuário", "/user", "person", 4, false);
 			permissaoMenuUsuario.setPerfil(perfilModel);
 			permissaoMenuRepository.saveAndFlush(permissaoMenuUsuario);
-			PermissaoMenuModel permissaoMenuMensagem = getPermissaoMenu( "Mensagem", "http://localhost:8000/app/index.html", "chat_bubble", 4, true);
+			PermissaoMenuModel permissaoMenuMensagem = getPermissaoMenu( "Mensagem", "http://localhost:8000/app/index.html", "chat_bubble", 5, true);
 			permissaoMenuMensagem.setPerfil(perfilModel);
 			permissaoMenuRepository.saveAndFlush(permissaoMenuMensagem);
 			
@@ -65,22 +64,25 @@ public class PermissaoMenuService {
 			PermissaoMenuModel permissaoMenuMapa = getPermissaoMenu( "Mapa", "/maps", "location_on", 0 ,false);
 			permissaoMenuMapa.setPerfil(perfilModel);
 			permissaoMenuRepository.saveAndFlush(permissaoMenuMapa);
-			PermissaoMenuModel permissaoMenuPontoMonitorado = getPermissaoMenu( "Ponto Monitorado", "/pontomonitorado", "directions_car", 1,false);
+			PermissaoMenuModel permissaoMenuTrajeto = getPermissaoMenu( "Trajeto", "/trajeto", "navigation", 1 ,false);
+			permissaoMenuTrajeto.setPerfil(perfilModel);
+			permissaoMenuRepository.saveAndFlush(permissaoMenuTrajeto);
+			PermissaoMenuModel permissaoMenuPontoMonitorado = getPermissaoMenu( "Ponto Monitorado", "/pontomonitorado", "directions_car", 2,false);
 			permissaoMenuPontoMonitorado.setPerfil(perfilModel);
 			permissaoMenuRepository.saveAndFlush(permissaoMenuPontoMonitorado);
-			PermissaoMenuModel permissaoMenuDispositivo = getPermissaoMenu( "Dispositivo", "/dispositivo", "phonelink_ring", 2, false);
+			PermissaoMenuModel permissaoMenuDispositivo = getPermissaoMenu( "Dispositivo", "/dispositivo", "phonelink_ring", 3, false);
 			permissaoMenuDispositivo.setPerfil(perfilModel);
 			permissaoMenuRepository.saveAndFlush(permissaoMenuDispositivo);
-			PermissaoMenuModel permissaoMenuTipoPontoMonitorado = getPermissaoMenu( "Tipo Ponto Monitorado", "/tipopontomonitorado", "rss_feed", 3, false);
+			PermissaoMenuModel permissaoMenuTipoPontoMonitorado = getPermissaoMenu( "Tipo Ponto Monitorado", "/tipopontomonitorado", "rss_feed", 4, false);
 			permissaoMenuTipoPontoMonitorado.setPerfil(perfilModel);
 			permissaoMenuRepository.saveAndFlush(permissaoMenuTipoPontoMonitorado);
-			PermissaoMenuModel permissaoMenuModelo = getPermissaoMenu( "Modelo", "/modelo", "view_module", 4, false);
+			PermissaoMenuModel permissaoMenuModelo = getPermissaoMenu( "Modelo", "/modelo", "view_module", 5, false);
 			permissaoMenuModelo.setPerfil(perfilModel);
 			permissaoMenuRepository.saveAndFlush(permissaoMenuModelo);
-			PermissaoMenuModel permissaoMenuUsuario = getPermissaoMenu( "Usuário", "/user", "person", 5, false);
+			PermissaoMenuModel permissaoMenuUsuario = getPermissaoMenu( "Usuário", "/user", "person", 6, false);
 			permissaoMenuUsuario.setPerfil(perfilModel);
 			permissaoMenuRepository.saveAndFlush(permissaoMenuUsuario);
-			PermissaoMenuModel permissaoMenuMensagem = getPermissaoMenu( "Mensagem", "http://localhost:8000/app/index.html", "chat_bubble", 6, true);
+			PermissaoMenuModel permissaoMenuMensagem = getPermissaoMenu( "Mensagem", "http://13.90.142.231:8088/#", "chat_bubble", 7, true);
 			permissaoMenuMensagem.setPerfil(perfilModel);
 			permissaoMenuRepository.saveAndFlush(permissaoMenuMensagem);
 			

@@ -17,11 +17,7 @@ public interface PosicaoAtualPontoMonitoradoRepository extends JpaRepository<Pos
 	@Query(value = "SELECT 1 FROM posicao_atual_ponto_monitorado WHERE identificador_dispositivo = ?1 " , nativeQuery = true)
 	Integer findIsByIdentificadorDispositivo(String identificadorDispositivo);
 	
-	@Transactional
-	@Modifying
-	@Query(value = "DELETE FROM posicao_atual_ponto_monitorado WHERE identificador_dispositivo = ?1 " , nativeQuery = true)
-	void deleteByIdentificadorDispositivo(String identificadorDispositivo);
-	
+
 	@Query(value = "SELECT papm.id_posicao_atual_ponto_monitorado, papm.descricao , "
 			+ " papm.latitude , papm.longitude , papm.identificador_dispositivo , papm.dt_cadastro "
 			+ " FROM ponto_monitorado_dispositivo pad "  

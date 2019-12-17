@@ -29,23 +29,6 @@ public class PosicaoAtualPontoMonitoradoService {
 	@Autowired
 	private ConverteUtil converteUtil;
 	
-	public ResponseVo salva(PosicaoAtualPontoMonitoradoVo posicaoAtualPontoMonitoradoVo) {
-	
-		try {
-			posicaoAtualPontoMonitoradoRepository.deleteByIdentificadorDispositivo(
-					posicaoAtualPontoMonitoradoVo.getIdentificadorDispositivo());
-			
-			PosicaoAtualPontoMonitoradoModel posicaoAtualDispositivoModel = new PosicaoAtualPontoMonitoradoModel(posicaoAtualPontoMonitoradoVo);
-			posicaoAtualPontoMonitoradoRepository.saveAndFlush(posicaoAtualDispositivoModel);
-			
-			return new ResponseVo("Posição atual do dispositivo salva");
-		
-		}catch (Exception e) {
-			logger.error("{}", e);
-			throw e;
-		}
-	} 
-	
 	public PosicaoAtualPontoMonitoradoVo find(Long idPontoMonitorado) throws Exception{
 		
 		try {

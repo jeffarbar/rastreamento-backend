@@ -24,14 +24,6 @@ public class PosicaoAtualPontoMonitoradoController extends Controller {
 	@Autowired
 	public PosicaoAtualPontoMonitoradoService posicaoAtualPontoMonitoradoService;
 	
-	@PostMapping(path="/", produces = {MediaType.APPLICATION_JSON_VALUE} , consumes = {MediaType.APPLICATION_JSON_VALUE})
-	public ResponseEntity<ResponseVo> salva(@RequestBody PosicaoAtualPontoMonitoradoVo posicaoAtualPontoMonitoradoVo) {
-		try {
-			return ResponseEntity.ok().body(posicaoAtualPontoMonitoradoService.salva(posicaoAtualPontoMonitoradoVo)); 
-		}catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).build();
-		}
-	}
 	
 	@GetMapping(path="/all/{idUsuario}", produces = {MediaType.APPLICATION_JSON_VALUE} )
     public ResponseEntity<List<PosicaoAtualPontoMonitoradoVo>> getAll(@PathVariable("idUsuario") final Long idUsuario){

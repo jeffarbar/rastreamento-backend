@@ -1,7 +1,5 @@
 package br.com.send.util;
 
-import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -9,8 +7,6 @@ import java.util.TimeZone;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import br.com.send.service.PontoMonitoradoService;
 
 
 public class DataUtil {
@@ -29,6 +25,7 @@ public class DataUtil {
 	}
 	
 	public static String converteData(Date date) {
+		if(date == null)return null;
 		return dateFormatddMMyyyyHHmmss.format(date); 
 	}
 

@@ -43,7 +43,7 @@ public class PosicaoAtualPontoMonitoradoModel {
 	@Column(name = "identificador_dispositivo", nullable = false , unique = true )
 	private String identificadorDispositivo;
 	
-	@Column(name = "descricao", nullable = false )
+	@Column(name = "descricao")
 	private String descricao;
 	
 	@Column(name = "latitude", nullable = false )
