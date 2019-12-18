@@ -33,9 +33,9 @@ public class PosicaoAtualPontoMonitoradoService {
 		
 		try {
 			
-			Object[] result = posicaoAtualPontoMonitoradoRepository.findPosicaoAtualByIdPontoMonitorado(idPontoMonitorado);
-			if( result != null && result.length > 0 ) {
-				return converte(result);
+			List<Object[]> result = posicaoAtualPontoMonitoradoRepository.findPosicaoAtualByIdPontoMonitorado(idPontoMonitorado);
+			if( result != null && !result.isEmpty() ) {
+				return converte(result.get(0));
 			}
 			return new PosicaoAtualPontoMonitoradoVo();
 			

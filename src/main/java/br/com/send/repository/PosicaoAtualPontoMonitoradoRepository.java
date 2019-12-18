@@ -24,7 +24,7 @@ public interface PosicaoAtualPontoMonitoradoRepository extends JpaRepository<Pos
 			+ " INNER JOIN dispositivo d ON( d.id_dispositivo = pad.id_dispositivo  )" 
 			+ " INNER JOIN posicao_atual_ponto_monitorado papm ON( papm.identificador_dispositivo = d.identificador )"  
 			+ " WHERE pad.id_ponto_monitorado = ?1 AND d.fg_ativo = TRUE AND pad.fg_ativo = TRUE " , nativeQuery = true)
-	Object[] findPosicaoAtualByIdPontoMonitorado(Long idPontoMonitorado);
+	List<Object[]> findPosicaoAtualByIdPontoMonitorado(Long idPontoMonitorado);
 	
 	
 	@Query(value = "SELECT papm.id_posicao_atual_ponto_monitorado, papm.descricao , "
