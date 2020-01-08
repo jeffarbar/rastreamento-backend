@@ -33,8 +33,8 @@ public class NotificacaoModel {
 	private Long idNotificacao;
 	
 	@ManyToOne
-	@JoinColumn(name = "id_usuario")
-	private UsuarioModel usuario;
+	@JoinColumn(name = "id_empresa")
+	private EmpresaModel empresa;
 
 	@Column(name = "descricao", nullable = false )
 	private String descricao;
@@ -90,12 +90,12 @@ public class NotificacaoModel {
 		this.dtModificada = dtModificada;
 	}
 
-	public UsuarioModel getUsuario() {
-		return usuario;
+	public EmpresaModel getEmpresa() {
+		return empresa;
 	}
 
-	public void setUsuario(UsuarioModel usuario) {
-		this.usuario = usuario;
+	public void setEmpresa(EmpresaModel empresa) {
+		this.empresa = empresa;
 	}
 
 	

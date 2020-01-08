@@ -24,10 +24,11 @@ public class PermissaoMenuController extends Controller{
 	@Autowired
 	private PermissaoMenuService permissaoMenuService;
 	
-	@GetMapping(path="/{idPerfil}", produces = {MediaType.APPLICATION_JSON_VALUE} )
-    public ResponseEntity<List<PermissaoMenuVo>> get(@PathVariable("idPerfil") final Integer idPerfil){
+	@GetMapping(path="/{idUsuario}", produces = {MediaType.APPLICATION_JSON_VALUE} )
+    public ResponseEntity<List<PermissaoMenuVo>> get(
+    		@PathVariable("idUsuario") final Long idUsuario){
 		try {
-			return ResponseEntity.ok().body(permissaoMenuService.findAll(idPerfil)); 
+			return ResponseEntity.ok().body(permissaoMenuService.findAll(idUsuario)); 
 		}catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).build();
 		}

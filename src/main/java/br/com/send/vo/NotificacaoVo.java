@@ -16,7 +16,7 @@ public class NotificacaoVo {
 	
 	private Long idNotificacao;
 	
-	private Long idUsuario;
+	private Long idEmpresa;
 	
 	private String descricao;
 
@@ -36,12 +36,12 @@ public class NotificacaoVo {
 		this.descricao = descricao;
 	}
 
-	public Long getIdUsuario() {
-		return idUsuario;
+	public Long getIdEmpresa() {
+		return idEmpresa;
 	}
 
-	public void setIdUsuario(Long idUsuario) {
-		this.idUsuario = idUsuario;
+	public void setIdEmpresa(Long idEmpresa) {
+		this.idEmpresa = idEmpresa;
 	}
-	
+
 }

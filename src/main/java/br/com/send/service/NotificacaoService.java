@@ -7,8 +7,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import br.com.send.model.EmpresaModel;
 import br.com.send.model.NotificacaoModel;
 import br.com.send.model.UsuarioModel;
+import br.com.send.repository.EmpresaRepository;
 import br.com.send.repository.NotificacaoRepository;
 import br.com.send.repository.UsuarioRepository;
 import br.com.send.util.DataUtil;
@@ -26,7 +29,7 @@ public class NotificacaoService {
 	private NotificacaoRepository notificacaoRepository;
 	
 	@Autowired
-	private UsuarioRepository usuarioRepository;
+	private EmpresaRepository empresaRepository;
 	
 	public ResponseVo salva(NotificacaoVo notificacaoVo)  throws Exception{
 		
@@ -70,18 +73,18 @@ public class NotificacaoService {
 	
 	private void salvaAtualiza(NotificacaoModel notificacaoModel , NotificacaoVo notificacaoVo) throws Exception{
 		 
-		UsuarioModel usuario = usuarioRepository.findById(notificacaoVo.getIdUsuario())
-			.orElseThrow(() -> new NotFoundException("Não existe usuario para "+notificacaoVo.getIdUsuario()));
+		EmpresaModel empresa = empresaRepository.findById(notificacaoVo.getIdEmpresa())
+			.orElseThrow(() -> new NotFoundException("Não existe usuario para "+notificacaoVo.getIdEmpresa()));
 		
-		notificacaoModel.setUsuario( usuario );
+		notificacaoModel.setEmpresa(empresa);
 		notificacaoModel.setDescricao(notificacaoVo.getDescricao());
 		notificacaoRepository.saveAndFlush( notificacaoModel );
 	}
 	
-	public List<NotificacaoVo> findAll(Long idUsuario) throws Exception{
+	public List<NotificacaoVo> findAll(Long idEmpresa) throws Exception{
 		
 		try {
-			return notificacaoRepository.findNotificacaoByUsuarioIdUsuarioAndLidaIsFalse(idUsuario)
+			return notificacaoRepository.findNotificacaoByEmpresaIdEmpresaAndLidaIsFalse(idEmpresa)
 					.stream().map(  NotificacaoVo :: new ).collect(Collectors.toList());
 		
 		}catch (Exception e) {

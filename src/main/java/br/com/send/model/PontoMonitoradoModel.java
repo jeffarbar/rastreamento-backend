@@ -53,10 +53,10 @@ public class PontoMonitoradoModel {
 	
 	@ManyToMany(fetch = FetchType.LAZY , cascade = { CascadeType.MERGE , CascadeType.PERSIST })
 	@JoinTable(
-			name = "usuario_ponto_monitorado",
+			name = "empresa_ponto_monitorado",
 			joinColumns = @JoinColumn(name = "id_ponto_monitorado"), 
-			inverseJoinColumns = @JoinColumn(name = "id_usuario"))
-	private Set<UsuarioModel> usuarios;
+			inverseJoinColumns = @JoinColumn(name = "id_empresa"))
+	private Set<EmpresaModel> empresas;
 	
 	@Column(name = "dt_cadastro", nullable = false )
 	@Temporal(TemporalType.TIMESTAMP)
@@ -103,12 +103,12 @@ public class PontoMonitoradoModel {
 		this.tipoPontoMonitorado = tipoPontoMonitorado;
 	}
 
-	public Set<UsuarioModel> getUsuarios() {
-		return usuarios;
+	public Set<EmpresaModel> getEmpresas() {
+		return empresas;
 	}
 
-	public void setUsuarios(Set<UsuarioModel> usuarios) {
-		this.usuarios = usuarios;
+	public void setEmpresas(Set<EmpresaModel> empresas) {
+		this.empresas = empresas;
 	}
 
 	public Date getDtCadastro() {

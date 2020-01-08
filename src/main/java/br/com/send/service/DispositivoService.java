@@ -193,10 +193,10 @@ public class DispositivoService {
 		}
 	}
 	
-	public List<DispositivoVo> findAllByUsuario(Long idUsuario) throws Exception{
+	public List<DispositivoVo> findAllByEmpresa(Long idEmpresa) throws Exception{
 		
 		try {
-			return pontoMonitoradoDispositivoRepository.findDispositivosByIdUsuario(idUsuario)
+			return pontoMonitoradoDispositivoRepository.findDispositivosByIdEmpresa(idEmpresa)
 					.parallelStream().map( this :: converte ).collect(Collectors.toList());
 		
 		}catch (Exception e) {

@@ -32,6 +32,10 @@ public class PerfilService {
 		PerfilModelAdmin.setDescricao(PerfilEnum.ADMIN.getDescricao());
 		permissaoMenuService.geraPermissaoAdmin(perfilRepository.saveAndFlush(PerfilModelAdmin) );
 		
+		PerfilModel PerfilModelAdminUsuario = new PerfilModel();
+		PerfilModelAdminUsuario.setDescricao(PerfilEnum.ADMIN_USUARIO.getDescricao());
+		permissaoMenuService.geraPermissaoAdminUsuario(perfilRepository.saveAndFlush(PerfilModelAdminUsuario) );
+		
 		PerfilModel PerfilModelUsuario = new PerfilModel();
 		PerfilModelUsuario.setDescricao(PerfilEnum.USUARIO.getDescricao());
 		permissaoMenuService.geraPermissaoUsuario(perfilRepository.saveAndFlush(PerfilModelUsuario) );
@@ -46,7 +50,7 @@ public class PerfilService {
 	public PerfilModel findPerfil(Integer id) throws Exception{
 		try {
 			return perfilRepository.findById(id)
-					.orElseThrow(() -> new NotFoundException("Não existe perdil para "+id)  );
+					.orElseThrow(() -> new NotFoundException("Não existe perfil para "+id)  );
 		} catch (NotFoundException e) {
 			logger.error("{}", e);
 			throw e;
@@ -59,8 +63,7 @@ public class PerfilService {
 	public PerfilVo find(Integer idPerfil) throws Exception{
 		
 		try {
-			return new PerfilVo( perfilRepository.findById(idPerfil)
-					.orElseThrow(() -> new NotFoundException("Não existe perfil para "+idPerfil)  ));
+			return new PerfilVo( this.findPerfil(idPerfil));
 		} catch (NotFoundException e) {
 			logger.error("{}", e);
 			throw e;
@@ -73,8 +76,9 @@ public class PerfilService {
 	public List<PerfilVo> findAll() throws Exception{
 		
 		try {
-			return perfilRepository.findAll()
-				.stream().map(  PerfilVo :: new ).collect(Collectors.toList());
+			return perfilRepository.findAll().stream()
+				.filter(  p -> !p.getDescricao().equals( PerfilEnum.ADMIN.getDescricao() )  )
+				.map(  PerfilVo :: new ).collect(Collectors.toList());
 		}catch (Exception e) {
 			logger.error("{}", e);
 			 throw e;

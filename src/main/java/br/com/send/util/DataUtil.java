@@ -13,13 +13,13 @@ public class DataUtil {
 
 	private static final Logger logger = LogManager.getLogger(DataUtil.class);
 	
-	private static TimeZone tz = TimeZone.getTimeZone("America/Sao_Paulo");
+	private static TimeZone tz = TimeZone.getTimeZone("GMT-3");
 	
 	private static SimpleDateFormat dateFormatddMMyyyyHHmmss = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");  
 	
 	
 	public static Date getDataAtual() {
-		
+		TimeZone.setDefault(tz);
 		Calendar cal = Calendar.getInstance(tz);
 		return cal.getTime();
 	}

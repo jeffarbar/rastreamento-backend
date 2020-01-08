@@ -1,6 +1,5 @@
 package br.com.send.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -8,15 +7,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import br.com.send.model.PosicaoAtualPontoMonitoradoModel;
 import br.com.send.repository.PosicaoAtualPontoMonitoradoRepository;
 import br.com.send.util.ConverteUtil;
 import br.com.send.util.DataUtil;
-import br.com.send.vo.DispositivoVo;
 import br.com.send.vo.PosicaoAtualPontoMonitoradoVo;
-import br.com.send.vo.ResponseVo;
-import br.com.send.vo.UsuarioVo;
-import javassist.NotFoundException;
 
 @Service
 public class PosicaoAtualPontoMonitoradoService {
@@ -45,11 +39,26 @@ public class PosicaoAtualPontoMonitoradoService {
 		}
 	}
 	
+	/*
 	public List<PosicaoAtualPontoMonitoradoVo> findByUsuario(Long idUsuario) throws Exception{
 		
 		try {
 				
 			return posicaoAtualPontoMonitoradoRepository.findPosicaoAtualByIdUsuario(idUsuario)
+					.parallelStream().map( this :: converte ).collect(Collectors.toList());
+			
+		}catch (Exception e) {
+			logger.error("{}", e);
+			throw e;
+		}
+	}
+	*/
+	
+	public List<PosicaoAtualPontoMonitoradoVo> findByEmpresa(Long idEmpresa) throws Exception{
+		
+		try {
+				
+			return posicaoAtualPontoMonitoradoRepository.findPosicaoAtualByIdEmpresa(idEmpresa)
 					.parallelStream().map( this :: converte ).collect(Collectors.toList());
 			
 		}catch (Exception e) {

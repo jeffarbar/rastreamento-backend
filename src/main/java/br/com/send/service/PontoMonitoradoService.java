@@ -8,9 +8,12 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import br.com.send.model.EmpresaModel;
 import br.com.send.model.PontoMonitoradoModel;
 import br.com.send.model.TipoPontoMonitoradoModel;
 import br.com.send.model.UsuarioModel;
+import br.com.send.repository.EmpresaRepository;
 import br.com.send.repository.PontoMonitoradoRepository;
 import br.com.send.repository.TipoPontoMonitoradoRepository;
 import br.com.send.repository.UsuarioRepository;
@@ -32,8 +35,21 @@ public class PontoMonitoradoService {
 	private TipoPontoMonitoradoRepository tipoPontoMonitoradoRepository;
 	
 	@Autowired
-	private UsuarioRepository usuarioRepository;
+	private EmpresaRepository empresaRepository;
 	
+	public List<PontoMonitoradoVo> findByEmpresa(Long idEmpresa) throws Exception{
+		
+		try {
+			return pontoMonitoradoRepository.findByAtivoIsTrueAndEmpresas_IdEmpresa( idEmpresa ).stream().map(  PontoMonitoradoVo :: new )
+					.collect(Collectors.toList());
+		
+		}catch (Exception e) {
+			logger.error("{}", e);
+			throw e;
+		}
+	}
+	
+	/*
 	public List<PontoMonitoradoVo> findByUsuario(Long idUsuario) throws Exception{
 		
 		try {
@@ -45,6 +61,7 @@ public class PontoMonitoradoService {
 			throw e;
 		}
 	}
+	*/
 	
 	public PontoMonitoradoVo find(Long idPontoMonitorado) throws Exception{
 		
@@ -125,11 +142,11 @@ public class PontoMonitoradoService {
 			TipoPontoMonitoradoModel tipoPontoMonitorado = tipoPontoMonitoradoRepository.findById(pontoMonitoradoVo.getIdTipoPontoMonitorado() )
 					.orElseThrow(() -> new NotFoundException("Não existe tipo de ponto monitorado para "+ pontoMonitoradoVo.getIdTipoPontoMonitorado())  );
 			
-			UsuarioModel usuarioModel = usuarioRepository.findById(pontoMonitoradoVo.getIdUsuario())
-					.orElseThrow(() -> new NotFoundException("Não existe usuario para "+pontoMonitoradoVo.getIdUsuario()) );
+			EmpresaModel empresaModel = empresaRepository.findById(pontoMonitoradoVo.getIdEmpresa())
+					.orElseThrow(() -> new NotFoundException("Não existe usuario para "+pontoMonitoradoVo.getIdEmpresa()) );
 			
 			pontoMonitoradoModel.setTipoPontoMonitorado( tipoPontoMonitorado );
-			pontoMonitoradoModel.setUsuarios( Stream.of(usuarioModel).collect(Collectors.toSet()));
+			pontoMonitoradoModel.setEmpresas( Stream.of(empresaModel).collect(Collectors.toSet()));
 			
 			pontoMonitoradoRepository.saveAndFlush( pontoMonitoradoModel );
 		

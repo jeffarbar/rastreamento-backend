@@ -1,7 +1,5 @@
 package br.com.send.model;
 
-
-
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -43,10 +41,7 @@ public class UsuarioModel {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_usuario", nullable = false )
 	private Long idUsuario;
-
-	@OneToMany(mappedBy = "usuario", targetEntity = NotificacaoModel.class, 
-			fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private List<NotificacaoModel> notificacoes;
+	
 	
 	@Column(name = "nome", nullable = false )
 	private String nome;
@@ -59,9 +54,6 @@ public class UsuarioModel {
 	
 	@Column(name = "profissao")
 	private String profissao;
-
-	@Column(name = "companhia")
-	private String companhia;
 	 
 	@Column(name = "senha", nullable = false )
 	private String senha;
@@ -86,9 +78,9 @@ public class UsuarioModel {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date dtModificada;
 	
-	@ManyToMany(fetch = FetchType.LAZY, 
-			cascade = { CascadeType.PERSIST, CascadeType.MERGE } , mappedBy = "usuarios" )
-	private Set<PontoMonitoradoModel> pontoMonitorados;
+	@ManyToOne
+	@JoinColumn(name = "id_empresa")
+	private EmpresaModel empresa;
 	
 	@Column(name = "fg_ativo", columnDefinition = "boolean default true" , nullable = false )
 	private Boolean ativo = Boolean.TRUE;
@@ -103,14 +95,6 @@ public class UsuarioModel {
 
 	public void setIdUsuario(Long idUsuario) {
 		this.idUsuario = idUsuario;
-	}
-
-	public Set<PontoMonitoradoModel> getPontoMonitorados() {
-		return pontoMonitorados;
-	}
-
-	public void setPontoMonitorados(Set<PontoMonitoradoModel> pontoMonitorados) {
-		this.pontoMonitorados = pontoMonitorados;
 	}
 
 	public Boolean getAtivo() {
@@ -145,14 +129,6 @@ public class UsuarioModel {
 		this.profissao = profissao;
 	}
 
-	public String getCompanhia() {
-		return companhia;
-	}
-
-	public void setCompanhia(String companhia) {
-		this.companhia = companhia;
-	}
-
 	public String getSenha() {
 		return senha;
 	}
@@ -183,14 +159,6 @@ public class UsuarioModel {
 
 	public void setDtModificada(Date dtModificada) {
 		this.dtModificada = dtModificada;
-	}
-
-	public List<NotificacaoModel> getNotificacoes() {
-		return notificacoes;
-	}
-
-	public void setNotificacoes(List<NotificacaoModel> notificacoes) {
-		this.notificacoes = notificacoes;
 	}
 
 	public Double getLatitude() {
@@ -233,5 +201,12 @@ public class UsuarioModel {
 		this.perfil = perfil;
 	}
 
-	
+	public EmpresaModel getEmpresa() {
+		return empresa;
+	}
+
+	public void setEmpresa(EmpresaModel empresa) {
+		this.empresa = empresa;
+	}
+
 }

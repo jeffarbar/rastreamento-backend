@@ -33,7 +33,7 @@ public class PontoMonitoradoVo {
 	
 	private Long idTipoPontoMonitorado;
 	
-	private Long idUsuario;
+	private Long idEmpresa;
 	
 	private Boolean ativo;
 	
@@ -55,14 +55,13 @@ public class PontoMonitoradoVo {
 		this.idTipoPontoMonitorado = idTipoPontoMonitorado;
 	}
 
-	public Long getIdUsuario() {
-		return idUsuario;
+	public Long getIdEmpresa() {
+		return idEmpresa;
 	}
 
-	public void setIdUsuario(Long idUsuario) {
-		this.idUsuario = idUsuario;
+	public void setIdEmpresa(Long idEmpresa) {
+		this.idEmpresa = idEmpresa;
 	}
-
 
 	public Long getIdPontoMonitorado() {
 		return idPontoMonitorado;
