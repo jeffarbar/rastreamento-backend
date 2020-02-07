@@ -20,6 +20,7 @@ public class EmpresaVo {
 			if(empresaModel.getDtModificada() != null) {
 				this.setDtModificada( DataUtil.converterDataGMT3(empresaModel.getDtModificada()) );
 			}
+			
 		}
 	}
 	

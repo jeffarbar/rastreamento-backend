@@ -28,6 +28,7 @@ public class PontoMonitoradoController extends Controller {
 	
 	@GetMapping(path="/empresa/{idEmpresa}", produces = {MediaType.APPLICATION_JSON_VALUE} )
     public ResponseEntity<List<PontoMonitoradoVo>> getByEmpresa(@PathVariable("idEmpresa") final Long idEmpresa){
+
 		try {
 			return ResponseEntity.ok().body(pontoMonitoradoService.findByEmpresa(idEmpresa)); 
 		}catch (Exception e) {

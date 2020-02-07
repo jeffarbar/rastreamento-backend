@@ -64,6 +64,7 @@ public class PermissaoMenuService {
 		}
 	}
 	
+	
 	public void geraPermissaoAdminUsuario( PerfilModel perfilModel ) throws Exception{
 		
 		try {
@@ -86,10 +87,14 @@ public class PermissaoMenuService {
 			PermissaoMenuModel permissaoMenuModelo = getPermissaoMenu( "Modelo", "/modelo", "view_module", 5, false);
 			permissaoMenuModelo.setPerfil(perfilModel);
 			permissaoMenuRepository.saveAndFlush(permissaoMenuModelo);
-			PermissaoMenuModel permissaoMenuUsuario = getPermissaoMenu( "Usuário", "/listausuario", "person", 6, false);
+			PermissaoMenuModel permissaoMenuEmpresa = getPermissaoMenu( "Empresa", "/listaempresa", "business_center", 6, false);
+			permissaoMenuEmpresa.setPerfil(perfilModel);
+			permissaoMenuRepository.saveAndFlush(permissaoMenuEmpresa);
+			PermissaoMenuModel permissaoMenuUsuario = getPermissaoMenu( "Usuário", "/listausuario", "person", 7, false);
+
 			permissaoMenuUsuario.setPerfil(perfilModel);
 			permissaoMenuRepository.saveAndFlush(permissaoMenuUsuario);
-			PermissaoMenuModel permissaoMenuMensagem = getPermissaoMenu( "Mensagem", "/conversation", "chat_bubble", 7, false);
+			PermissaoMenuModel permissaoMenuMensagem = getPermissaoMenu( "Mensagem", "/conversation", "chat_bubble", 8, false);
 			permissaoMenuMensagem.setPerfil(perfilModel);
 			permissaoMenuRepository.saveAndFlush(permissaoMenuMensagem);
 			
@@ -128,7 +133,7 @@ public class PermissaoMenuService {
 			PermissaoMenuModel permissaoMenuUsuario = getPermissaoMenu( "Usuário", "/listausuario", "person", 7, false);
 			permissaoMenuUsuario.setPerfil(perfilModel);
 			permissaoMenuRepository.saveAndFlush(permissaoMenuUsuario);
-			PermissaoMenuModel permissaoMenuMensagem = getPermissaoMenu( "Mensagem", "/conversation", "chat_bubble", 8, false);
+			PermissaoMenuModel permissaoMenuMensagem = getPermissaoMenu( "Mensagem", "http://13.90.142.231:8088/#", "chat_bubble", 8, true);
 			permissaoMenuMensagem.setPerfil(perfilModel);
 			permissaoMenuRepository.saveAndFlush(permissaoMenuMensagem);
 			

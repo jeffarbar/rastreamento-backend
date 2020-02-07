@@ -1,7 +1,7 @@
 package br.com.send.service;
 
+
 import java.net.URI;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+
 import br.com.send.repository.PosicaoAtualPontoMonitoradoRepository;
 import br.com.send.util.ConverteUtil;
 import br.com.send.util.DataUtil;
