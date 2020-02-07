@@ -1,5 +1,7 @@
 package br.com.send.service;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -10,7 +12,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import br.com.send.enums.PerfilEnum;
+import br.com.send.model.EmpresaModel;
 import br.com.send.model.UsuarioModel;
+import br.com.send.repository.EmpresaRepository;
 import br.com.send.repository.UsuarioRepository;
 import br.com.send.util.DataUtil;
 import br.com.send.util.SenhaUtil;
@@ -18,7 +22,6 @@ import br.com.send.vo.ResetSenhaVo;
 import br.com.send.vo.ResponseVo;
 import br.com.send.vo.UsuarioVo;
 import javassist.NotFoundException;
-
 
 @Service
 public class UsuarioService {
@@ -35,11 +38,41 @@ public class UsuarioService {
 	private UsuarioRepository usuarioRepository;
 	
 	@Autowired
+	private EmpresaRepository empresaRepository;
+	
+	@Autowired
 	private PerfilService perfilService;
 	
 	@Autowired
 	private SenhaUtil senhaUtil;
 	
+	public List<UsuarioVo> findAll(Long idUsuario) throws Exception{
+		
+		try {
+			
+			UsuarioModel usuario = usuarioRepository.findById(idUsuario)
+				.orElseThrow(() -> new NotFoundException("Não existe usuario para "+idUsuario));
+			
+			if( usuario.getEmpresa() == null || usuario.getPerfil() == null || usuario.getPerfil().getDescricao().equals( PerfilEnum.USUARIO.getDescricao() ) ) {
+				return Collections.singletonList(new UsuarioVo());
+			}else if(usuario.getPerfil().getDescricao().equals( PerfilEnum.ADMIN.getDescricao() )) {
+				return usuarioRepository.findAll().stream()
+						.map( UsuarioVo :: new )
+						.collect(Collectors.toList());
+			}else {
+				return usuarioRepository.findAll().stream()
+						.filter( u -> u.getEmpresa() != null && u.getEmpresa().getIdEmpresa().equals( usuario.getEmpresa().getIdEmpresa() ) )
+						.map( UsuarioVo :: new )
+						.collect(Collectors.toList());
+			}
+			
+			
+		}catch (Exception e) {
+			logger.error("{}", e);
+			throw e;
+		}
+	}
+
 	public List<UsuarioVo> findAll() throws Exception{
 		
 		try {
@@ -64,6 +97,37 @@ public class UsuarioService {
 		}
 	}
 	
+	public ResponseVo geraAdminInicial(EmpresaModel empresaModel) throws Exception{
+		
+		UsuarioModel usuarioModel = new UsuarioModel();
+
+		usuarioModel.setProfissao("Rastreamento");
+		usuarioModel.setSobre("Admin do sistema Send");
+		usuarioModel.setEmail("admin@sendsolutions.me");
+		usuarioModel.setDtCadastro(DataUtil.getDataAtual());
+		usuarioModel.setNome("Send");
+		usuarioModel.setSenha( senhaUtil.geraSenha("boris123") );
+		usuarioModel.setZoom(ZOOM_MAP_USUARIO);
+		usuarioModel.setLatitude(LATITUDE_SAO_PAULO);
+		usuarioModel.setLongitude(LONGITUDE_SAO_PAULO);
+		usuarioModel.setAtivo(Boolean.TRUE);
+		usuarioModel.setChaveTrocaSenha(senhaUtil.geraChaveTrocaSenha(usuarioModel.getEmail()));
+		usuarioModel.setPerfil(perfilService.findPerfil(PerfilEnum.ADMIN));
+		usuarioModel.setEmpresa(empresaModel);
+	
+		usuarioRepository.saveAndFlush( usuarioModel );
+		return new ResponseVo("Usuário admin salvo");
+	}
+	
+	public ResponseVo atualizaSalva(UsuarioVo userVo) throws Exception{
+		
+		if(userVo.getIdUsuario() == null) {
+			return salva(userVo);
+		}else {
+			return atualiza(userVo);
+		}
+	}
+	
 	public ResponseVo atualiza(UsuarioVo userVo) throws Exception{
 		
 		UsuarioModel usuario = null;
@@ -71,27 +135,43 @@ public class UsuarioService {
 			
 			this.validaSenha(userVo.getSenha(), userVo.getConfirmarSenha());
 			
-		 	usuario = usuarioRepository.findById(userVo.getIdUsuario())
-		 			.orElseThrow(() -> new NotFoundException("Não existe usuario para "+userVo.getIdUsuario()));
+				usuario = usuarioRepository.findById(userVo.getIdUsuario())
+			 			.orElseThrow(() -> new NotFoundException("Não existe usuario para "+userVo.getIdUsuario()));
+					 	
 		 	
 		 	// Se alterou o email, analisar se o novo email já não existe cadastrado
 		 	if(!usuario.getEmail().equals(userVo.getEmail())) {
 		 		this.validaEmail(userVo.getEmail());
 		 	}
 		 	
-		 	usuario.setCompanhia(userVo.getCompanhia());
 		 	usuario.setDtModificada(DataUtil.getDataAtual());
 		 	usuario.setEmail(userVo.getEmail());
-		 	usuario.setSenha(senhaUtil.geraSenha(userVo.getSenha())); 
+		 	if(!usuario.getSenha().equals( userVo.getSenha() )) {
+		 		usuario.setSenha(senhaUtil.geraSenha(userVo.getSenha())); 
+			}
 		 	usuario.setNome(userVo.getNome());
 		 	usuario.setProfissao(userVo.getProfissao());
 		 	usuario.setSobre(userVo.getSobre());
+		 	usuario.setAtivo(Boolean.TRUE);
 		 	
-		 	if( userVo.getPerfilVo() == null || userVo.getPerfilVo().getIdPerfil() == null) {
+		 	if( userVo.getIdPerfil() == null ) {
 		 		usuario.setPerfil(perfilService.findPerfil(PerfilEnum.USUARIO));
 		 	}else{
-		 		usuario.setPerfil(perfilService.findPerfil(userVo.getPerfilVo().getIdPerfil()));
+		 		usuario.setPerfil(perfilService.findPerfil(userVo.getIdPerfil()));
 		 	}
+		 	
+		 	if( userVo.getIdEmpresa() != null ) {
+				try {
+					usuario.setEmpresa( empresaRepository.findById(userVo.getIdEmpresa())
+							.orElseThrow(() -> new NotFoundException("Não existe empresa para "+userVo.getIdEmpresa())  ));
+				} catch (NotFoundException e) {
+					logger.error("{}", e);
+					throw e;
+				}catch (Exception e) {
+					logger.error("{}", e);
+					throw e;
+				}
+			}
 		 	
 		 	usuarioRepository.saveAndFlush( usuario );
 
@@ -138,12 +218,26 @@ public class UsuarioService {
 			usuarioModel.setLatitude(LATITUDE_SAO_PAULO);
 			usuarioModel.setLongitude(LONGITUDE_SAO_PAULO);
 			usuarioModel.setChaveTrocaSenha(senhaUtil.geraChaveTrocaSenha(userVo.getEmail()));
+			usuarioModel.setAtivo(Boolean.TRUE);
 			
 			if( userVo.getPerfilVo() == null || userVo.getPerfilVo().getIdPerfil() == null) {
 				usuarioModel.setPerfil(perfilService.findPerfil(PerfilEnum.USUARIO));
 		 	}else{
 		 		usuarioModel.setPerfil(perfilService.findPerfil(userVo.getPerfilVo().getIdPerfil()));
 		 	}
+			
+			if( userVo.getIdEmpresa() != null ) {
+				try {
+					usuarioModel.setEmpresa( empresaRepository.findById(userVo.getIdEmpresa())
+							.orElseThrow(() -> new NotFoundException("Não existe empresa para "+userVo.getIdEmpresa())  ));
+				} catch (NotFoundException e) {
+					logger.error("{}", e);
+					throw e;
+				}catch (Exception e) {
+					logger.error("{}", e);
+					throw e;
+				}
+			}
 			
 			usuarioRepository.saveAndFlush( usuarioModel );
 			return new ResponseVo("Usuário salvo");

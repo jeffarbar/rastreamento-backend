@@ -36,10 +36,10 @@ public class DispositivoController extends Controller {
 		}
     }
 
-	@GetMapping(path="/usuario/{idUsuario}", produces = {MediaType.APPLICATION_JSON_VALUE} )
-    public ResponseEntity<List<DispositivoVo>> getUsuario(@PathVariable("idUsuario") final Long idUsuario){
+	@GetMapping(path="/empresa/{idEmpresa}", produces = {MediaType.APPLICATION_JSON_VALUE} )
+    public ResponseEntity<List<DispositivoVo>> getUsuario(@PathVariable("idEmpresa") final Long idEmpresa){
 		try {
-			return ResponseEntity.ok().body(dispositivoSerice.findAllByUsuario(idUsuario)); 
+			return ResponseEntity.ok().body(dispositivoSerice.findAllByEmpresa(idEmpresa)); 
 		}catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).build();
 		}

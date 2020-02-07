@@ -24,9 +24,10 @@ public interface PosicaoAtualPontoMonitoradoRepository extends JpaRepository<Pos
 			+ " INNER JOIN dispositivo d ON( d.id_dispositivo = pad.id_dispositivo  )" 
 			+ " INNER JOIN posicao_atual_ponto_monitorado papm ON( papm.identificador_dispositivo = d.identificador )"  
 			+ " WHERE pad.id_ponto_monitorado = ?1 AND d.fg_ativo = TRUE AND pad.fg_ativo = TRUE " , nativeQuery = true)
-	Object[] findPosicaoAtualByIdPontoMonitorado(Long idPontoMonitorado);
+	List<Object[]> findPosicaoAtualByIdPontoMonitorado(Long idPontoMonitorado);
 	
 	
+	/*
 	@Query(value = "SELECT papm.id_posicao_atual_ponto_monitorado, papm.descricao , "
 			+ " papm.latitude , papm.longitude , papm.identificador_dispositivo , papm.dt_cadastro "
 			+ " FROM ponto_monitorado_dispositivo pad "  
@@ -35,5 +36,15 @@ public interface PosicaoAtualPontoMonitoradoRepository extends JpaRepository<Pos
 			+ " INNER JOIN usuario_ponto_monitorado upm ON( upm.id_ponto_monitorado = pad.id_ponto_monitorado )"
 			+ " WHERE upm.id_usuario = ?1 AND d.fg_ativo = TRUE AND pad.fg_ativo = TRUE  " , nativeQuery = true)
 	List<Object[]> findPosicaoAtualByIdUsuario(Long idUsuario);
+	*/
+	
+	@Query(value = "SELECT papm.id_posicao_atual_ponto_monitorado, papm.descricao , "
+			+ " papm.latitude , papm.longitude , papm.identificador_dispositivo , papm.dt_cadastro "
+			+ " FROM ponto_monitorado_dispositivo pad "  
+			+ " INNER JOIN dispositivo d ON( d.id_dispositivo = pad.id_dispositivo  )" 
+			+ " INNER JOIN posicao_atual_ponto_monitorado papm ON( papm.identificador_dispositivo = d.identificador )" 
+			+ " INNER JOIN empresa_ponto_monitorado epm ON( epm.id_ponto_monitorado = pad.id_ponto_monitorado )"
+			+ " WHERE epm.id_empresa = ?1 AND d.fg_ativo = TRUE AND pad.fg_ativo = TRUE  " , nativeQuery = true)
+	List<Object[]> findPosicaoAtualByIdEmpresa(Long idEmpresa);
 }
 

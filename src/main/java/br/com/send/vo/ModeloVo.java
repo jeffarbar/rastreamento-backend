@@ -12,7 +12,7 @@ public class ModeloVo {
 		if( modeloModel != null ){
 			BeanUtils.copyProperties(modeloModel,this);
 			if(modeloModel.getDtCadastro() != null) {
-				this.setDtCadastro( DataUtil.converteData(modeloModel.getDtCadastro()) );
+				this.setDtCadastro( DataUtil.converterDataGMT3(modeloModel.getDtCadastro()) );
 			}
 		}
 	}

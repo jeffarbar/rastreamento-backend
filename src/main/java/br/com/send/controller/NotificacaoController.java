@@ -24,10 +24,10 @@ public class NotificacaoController extends Controller {
 	@Autowired
 	private NotificacaoService notificacaoService;
 	
-	@GetMapping(path="/{idUsuario}", produces = {MediaType.APPLICATION_JSON_VALUE} )
-    public ResponseEntity<List<NotificacaoVo>> get(@PathVariable("idUsuario") final Long idUsuario){
+	@GetMapping(path="/{idEmpresa}", produces = {MediaType.APPLICATION_JSON_VALUE} )
+    public ResponseEntity<List<NotificacaoVo>> get(@PathVariable("idEmpresa") final Long idEmpresa){
 		try {
-	        return ResponseEntity.ok().body(notificacaoService.findAll(idUsuario)); 
+	        return ResponseEntity.ok().body(notificacaoService.findAll(idEmpresa)); 
 		}catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).build();
 		}

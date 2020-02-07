@@ -35,6 +35,15 @@ public class UsuarioController extends Controller {
 		}
     }
 	
+	@GetMapping(path="/all/{id}", produces = {MediaType.APPLICATION_JSON_VALUE} )
+    public ResponseEntity<List<UsuarioVo>> getAll(@PathVariable("id") final Long id){
+		try {
+			return ResponseEntity.ok().body(usuarioService.findAll(id)); 
+		}catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).build();
+		}
+    }
+	
 	@GetMapping(path="/{id}", produces = {MediaType.APPLICATION_JSON_VALUE} )
     public ResponseEntity<UsuarioVo> get(@PathVariable("id") final Long id){	
 		try {
@@ -47,7 +56,7 @@ public class UsuarioController extends Controller {
 	@PostMapping(path="/", produces = {MediaType.APPLICATION_JSON_VALUE} , consumes = {MediaType.APPLICATION_JSON_VALUE})
 	public ResponseEntity<ResponseVo> salva(@RequestBody UsuarioVo userVo) {
 		try {
-			return ResponseEntity.ok().body(usuarioService.salva(userVo)); 
+			return ResponseEntity.ok().body(usuarioService.atualizaSalva(userVo)); 
 		}catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).build();
 		}
@@ -56,12 +65,13 @@ public class UsuarioController extends Controller {
 	@PutMapping(path="/", produces = {MediaType.APPLICATION_JSON_VALUE} , consumes = {MediaType.APPLICATION_JSON_VALUE})
 	public ResponseEntity<ResponseVo> atualiza(@RequestBody UsuarioVo userVo) {
 		try {
-			return ResponseEntity.ok().body(usuarioService.atualiza(userVo)); 
+			return ResponseEntity.ok().body(usuarioService.atualizaSalva(userVo)); 
 		}catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).build();
 		}
 	}
 	
+
 	@PostMapping(path="/upload" , produces = {MediaType.APPLICATION_JSON_VALUE}, consumes = {MediaType.MULTIPART_FORM_DATA_VALUE} )
     public ResponseEntity<ResponseVo> upload(Long idUsuario, MultipartFile fotoPerfil) {
 		

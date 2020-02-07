@@ -24,14 +24,6 @@ public class PerfilController extends Controller{
 	@Autowired
 	private PerfilService perfilService;
 	
-	@GetMapping(path="/geraPerfilInicial", produces = {MediaType.APPLICATION_JSON_VALUE} )
-    public ResponseEntity<ResponseVo> geraPerfilInicial(){
-		try {
-			return ResponseEntity.ok().body(perfilService.geraPerfilInicial()); 
-		}catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).build();
-		}
-    }
 	
 	@GetMapping(path="/{idPerfil}", produces = {MediaType.APPLICATION_JSON_VALUE} )
     public ResponseEntity<PerfilVo> get(@PathVariable("idPerfil") final Integer idPerfil){

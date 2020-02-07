@@ -13,7 +13,7 @@ public class TipoPontoMonitoradoVo {
 		if( tipoPontoMonitoradoModel != null ){
 			BeanUtils.copyProperties(tipoPontoMonitoradoModel,this);
 			if(tipoPontoMonitoradoModel.getDtCadastro() != null) {
-				this.setDtCadastro( DataUtil.converteData(tipoPontoMonitoradoModel.getDtCadastro()) );
+				this.setDtCadastro( DataUtil.converterDataGMT3(tipoPontoMonitoradoModel.getDtCadastro()) );
 			}
 		}
 	}

@@ -8,5 +8,7 @@ import br.com.send.model.NotificacaoModel;
 @Repository
 public interface NotificacaoRepository extends JpaRepository<NotificacaoModel, Long> {
 
-	List<NotificacaoModel> findNotificacaoByUsuarioIdUsuarioAndLidaIsFalse(Long id);
+	//List<NotificacaoModel> findNotificacaoByUsuarioIdUsuarioAndLidaIsFalse(Long id);
+	
+	List<NotificacaoModel> findNotificacaoByEmpresaIdEmpresaAndLidaIsFalse(Long id);
 }

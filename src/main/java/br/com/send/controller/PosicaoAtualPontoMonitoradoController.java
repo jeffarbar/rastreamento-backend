@@ -25,10 +25,10 @@ public class PosicaoAtualPontoMonitoradoController extends Controller {
 	public PosicaoAtualPontoMonitoradoService posicaoAtualPontoMonitoradoService;
 	
 	
-	@GetMapping(path="/all/{idUsuario}", produces = {MediaType.APPLICATION_JSON_VALUE} )
-    public ResponseEntity<List<PosicaoAtualPontoMonitoradoVo>> getAll(@PathVariable("idUsuario") final Long idUsuario){
+	@GetMapping(path="/all/{idEmpresa}", produces = {MediaType.APPLICATION_JSON_VALUE} )
+    public ResponseEntity<List<PosicaoAtualPontoMonitoradoVo>> getAll(@PathVariable("idEmpresa") final Long idEmpresa){
 		try {
-			return ResponseEntity.ok().body(posicaoAtualPontoMonitoradoService.findByUsuario(idUsuario) ); 
+			return ResponseEntity.ok().body(posicaoAtualPontoMonitoradoService.findByEmpresa(idEmpresa) ); 
 		}catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).build();
 		}

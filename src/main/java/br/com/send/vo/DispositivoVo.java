@@ -16,7 +16,7 @@ public class DispositivoVo {
 		if( dispositivo != null ){
 			BeanUtils.copyProperties(dispositivo,this);
 			if(dispositivo.getDtCadastro() != null) {
-				this.setDtCadastroDispositivo( DataUtil.converteData(dispositivo.getDtCadastro()) );
+				this.setDtCadastroDispositivo( DataUtil.converterDataGMT3(dispositivo.getDtCadastro()) );
 			}
 			ModeloModel model = dispositivo.getModelo();
 			if(model != null) {
