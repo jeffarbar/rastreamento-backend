@@ -9,6 +9,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.send.model.DispositivoModel;
 import br.com.send.model.EmpresaModel;
 import br.com.send.model.PontoMonitoradoModel;
 import br.com.send.model.TipoPontoMonitoradoModel;
@@ -137,8 +138,15 @@ public class PontoMonitoradoService {
 		
 		try {
 			
-			PontoMonitoradoModel pontoMonitoradoModel = new PontoMonitoradoModel(pontoMonitoradoVo);
+			PontoMonitoradoModel pontoMonitoradoModel = pontoMonitoradoRepository.findByIdentificadorAndAtivoFalse(pontoMonitoradoVo.getIdentificador());
 			
+			if(pontoMonitoradoModel != null) {
+				pontoMonitoradoModel.setAtivo(Boolean.TRUE);
+				pontoMonitoradoModel.setDtCadastro( DataUtil.getDataAtual() );
+			}else {
+				pontoMonitoradoModel = new PontoMonitoradoModel(pontoMonitoradoVo);
+			}
+
 			TipoPontoMonitoradoModel tipoPontoMonitorado = tipoPontoMonitoradoRepository.findById(pontoMonitoradoVo.getIdTipoPontoMonitorado() )
 					.orElseThrow(() -> new NotFoundException("Não existe tipo de ponto monitorado para "+ pontoMonitoradoVo.getIdTipoPontoMonitorado())  );
 			

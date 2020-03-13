@@ -1,6 +1,7 @@
 package br.com.send.service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.apache.logging.log4j.LogManager;
@@ -103,7 +104,15 @@ public class DispositivoService {
 		
 		try {
 		
-			DispositivoModel dispositivoModel = new DispositivoModel(dispositivoVo);
+			DispositivoModel dispositivoModel = dispositivoRepository.findByNomeAndAtivoFalse(dispositivoVo.getNome());
+			
+			if(dispositivoModel != null) {
+				dispositivoModel.setAtivo(Boolean.TRUE);
+				dispositivoModel.setDtCadastro(DataUtil.getDataAtual() );
+			}else {
+				dispositivoModel = new DispositivoModel(dispositivoVo);
+			}
+			
 			ModeloModel modelo = modeloRepository.findById( dispositivoVo.getIdModelo() )
 					.orElseThrow(() -> new NotFoundException("Não existe modelo para "+ dispositivoVo.getIdModelo() )  );
 			

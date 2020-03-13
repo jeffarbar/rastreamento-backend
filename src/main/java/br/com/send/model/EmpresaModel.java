@@ -1,6 +1,5 @@
 package br.com.send.model;
 
-import java.sql.Clob;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;

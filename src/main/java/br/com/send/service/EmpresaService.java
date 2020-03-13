@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import br.com.send.enums.PerfilEnum;
+import br.com.send.model.DispositivoModel;
 import br.com.send.model.EmpresaModel;
 import br.com.send.model.UsuarioModel;
 import br.com.send.repository.EmpresaRepository;
@@ -144,7 +145,16 @@ public class EmpresaService {
 			if(empresaVo.getIdEmpresa() != null) {
 				return this.atualiza(empresaVo);
 			}else {
-				EmpresaModel empresaModel = new EmpresaModel( empresaVo);
+				
+				EmpresaModel empresaModel = empresaRepository.findByCnpjAndAtivoFalse(empresaVo.getCnpj());
+				
+				if( empresaModel != null ) {
+					empresaModel.setAtivo(Boolean.TRUE);
+					empresaModel.setDtCadastro( DataUtil.getDataAtual() );
+				}else {
+					empresaModel = new EmpresaModel( empresaVo);
+				}
+				
 				empresaRepository.saveAndFlush( empresaModel );
 				return new ResponseVo("Empresa salvo");
 			}

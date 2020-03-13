@@ -8,5 +8,5 @@ import br.com.send.model.DispositivoModel;
 @Repository
 public interface DispositivoRepository extends JpaRepository<DispositivoModel, Long> {
 
-	
+	DispositivoModel findByNomeAndAtivoFalse(String nome);
 }
